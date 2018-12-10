@@ -389,14 +389,17 @@ extension JTAppleCalendarView {
     }
     
     func dateOwnerInfoFromPath(_ indexPath: IndexPath) -> (date: Date, owner: DateOwner)? { // Returns nil if date is out of scope
-        guard let monthIndex = monthMap[indexPath.section] else {
+        
+        let section = indexPath.section
+        
+        guard let monthIndex = monthMap[section] else {
             return nil
         }
         let monthData = monthInfo[monthIndex]
         // Calculate the offset
         let offSet: Int
         var numberOfDaysToAddToOffset: Int = 0
-        switch monthData.sectionIndexMaps[indexPath.section]! {
+        switch monthData.sectionIndexMaps[section]! {
         case 0:
             offSet = monthData.inDates
         default:
