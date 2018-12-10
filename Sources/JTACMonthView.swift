@@ -39,6 +39,11 @@ open class JTACMonthView: UICollectionView {
     @IBInspectable open var cellSize: CGFloat = 0 {
         didSet {
             if oldValue == cellSize { return }
+            if scrollDirection == .horizontal {
+                calendarViewLayout.cellSize.width = cellSize
+            } else {
+                calendarViewLayout.cellSize.height = cellSize
+            }
             calendarViewLayout.invalidateLayout()
         }
     }
@@ -117,10 +122,10 @@ open class JTACMonthView: UICollectionView {
     var selectedCellData: [IndexPath:SelectedCellData] = [:]
     var pathsToReload: Set<IndexPath> = [] //Paths to reload because of prefetched cells
     
-    var anchorDate: Date?
+    open var anchorDate: Date?
     
     var requestedContentOffset: CGPoint {
-        var retval = CGPoint(x: -contentInset.left, y: -contentInset.top)
+        var retval: CGPoint = .zero
         guard let date = anchorDate else { return retval }
         
         // reset the initial scroll date once used.
@@ -149,7 +154,7 @@ open class JTACMonthView: UICollectionView {
             switch scrollingMode {
             case .stopAtEach, .stopAtEachSection, .stopAtEachCalendarFrame:
                 if scrollDirection == .horizontal || (scrollDirection == .vertical && !calendarViewLayout.thereAreHeaders) {
-                    retval = self.targetPointForItemAt(indexPath: sectionIndexPath) ?? retval
+                    retval = self.targetPointForItemAt(indexPath: sectionIndexPath) ?? .zero
                 }
             default:
                 break

@@ -85,9 +85,12 @@ public struct ConfigurationParameters {
     /// if your calendar has registered headers
     var hasStrictBoundaries: Bool
     
+    var selectedStartMonth: Date?
+    
     /// init-function
     public init(startDate: Date,
                 endDate: Date,
+                selectedStartMonth: Date? = nil,
                 numberOfRows: Int = 6,
                 calendar: Calendar = Calendar.current,
                 generateInDates: InDateCellGeneration = .forAllMonths,
@@ -96,6 +99,7 @@ public struct ConfigurationParameters {
                 hasStrictBoundaries: Bool? = nil) {
         self.startDate = startDate
         self.endDate = endDate
+        self.selectedStartMonth = selectedStartMonth
 
         if numberOfRows > 0 && numberOfRows < 7 {
             self.numberOfRows = numberOfRows
